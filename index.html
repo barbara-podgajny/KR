@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <style>
+      body {
+        background-image: url('state-street-logo.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+				width: 100%;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      }
+
+			thead tr {
+				background-color: #005498;
+				color: #ffffff;
+				text-align: left;
+			}
+
+      th,
+      td {
+        padding: 12px 15px;
+      }
+
+			.search-bar {
+				margin: 25px;
+				float:
+			}
+
+			input {
+				border: 3px;
+			}
+    </style>
+  </head>
+  <body>
+		<div class="search-bar">
+			<label for="search-input">Search:</label>
+			<input type="text" id="search-input" name="search-input"></input>
+		</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Header numer 1</th>
+          <th>Header numer 2</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+    <script>
+      const tableBody = document.getElementById("table-body");
+      const searchInput = document.getElementById("search-input");
+      const tableData = [
+        ["Row 1 Column 1", "Row 1 Column 2"],
+        ["Row 2 Column 1", "Row 2 Column 2"],
+        ["Row 3 Column 1", "Row 3 Column 2"],
+        ["Basia", "Moja kochana żonka"],
+      ];
+
+      function updateTable(updateData) {
+        for (let i = 0; i < updateData.length; i++) {
+          tableBody.appendChild(createRow(updateData[i]));
+        }
+      }
+
+      function createRow(rowData) {
+        let row = document.createElement("tr");
+        for (let j = 0; j < rowData.length; j++) {
+          let cell = document.createElement("td");
+          cell.innerHTML = rowData[j];
+          row.appendChild(cell);
+        }
+        return row;
+      }
+
+      function filterData() {
+        tableBody.innerHTML = "";
+        let searchValue = searchInput.value.toLowerCase();
+        let filterData = tableData.filter(function (d) {
+          // console.log(d)
+          let dataLength = d.length
+          let isMatch = false
+          for (let k = 0; k < dataLength; k++) {
+            isMatch = d[k].toLowerCase().includes(searchValue)
+            if (isMatch) { break }
+            }
+            return isMatch
+        })
+        // console.log(filterData);
+        updateTable(filterData);
+      }
+
+      searchInput.addEventListener("input", filterData)
+
+      updateTable(tableData);
+    </script>
+  </body>
+</html>
