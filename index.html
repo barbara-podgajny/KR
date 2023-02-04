@@ -30,11 +30,8 @@
 
 			.search-bar {
 				margin: 25px;
+				border-color:  #005498 ;(29, 3, 124);
 				float:
-			}
-
-			input {
-				border: 3px;
 			}
     </style>
   </head>
@@ -46,8 +43,11 @@
     <table>
       <thead>
         <tr>
-          <th>Header numer 1</th>
-          <th>Header numer 2</th>
+          <th>Business  Outcome </th>
+          <th>Format</th>
+					<th>Initial Owner</th>
+					<th>Short Description</th>
+					<th>Link</th>
         </tr>
       </thead>
       <tbody id="table-body"></tbody>
@@ -56,10 +56,10 @@
       const tableBody = document.getElementById("table-body");
       const searchInput = document.getElementById("search-input");
       const tableData = [
-        ["Row 1 Column 1", "Row 1 Column 2"],
-        ["Row 2 Column 1", "Row 2 Column 2"],
-        ["Row 3 Column 1", "Row 3 Column 2"],
-        ["Basia", "Moja kochana żonka"],
+        ["System access", "Word", "Barbara", "Access procedure", "http:"],
+        ["Credit/Rebill", "Power Point", "Karen", "Credit note", "http:"],
+        ["OOP", "Excel", "Jim", "Static field", "http"],
+        ["Invoice template", "Recording", "Bill", "static fields", "http"],
       ];
 
       function updateTable(updateData) {
