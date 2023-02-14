@@ -1,103 +1,191 @@
+<!-- TODO: Task nr.4 extract  each section to a seperate file:  -->
 <html>
-  <head>
-    <style>
-      body {
-        background-image: url('state-street-logo.png');
-        background-size: cover;
-        background-repeat: no-repeat;
-      }
 
-      table {
-        border-collapse: collapse;
-        margin: 25px 0;
-        font-size: 0.9em;
-        font-family: sans-serif;
-				width: 100%;
-        min-width: 400px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-      }
+<head>
+	<style>
+		body {
+			background-image: url('state-street-logo.png');
+			background-size: cover;
+			background-repeat: no-repeat;
+			font-family: sans-serif;
+			font-size: medium;
+		}
 
-			thead tr {
-				background-color: #005498;
-				color: #ffffff;
-				text-align: left;
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		.dataTable {
+			min-width: 400px;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+			margin: 25px 0;
+		}
+
+		.oddRow {
+			background-color: lightgray;
+		}
+
+		.tooltipTable {}
+
+		thead {
+			background-color: #005498;
+			color: #ffffff;
+			text-align: left;
+		}
+
+		.dataTableTd {
+			padding: 12px 15px;
+		}
+
+		.tooltipTableTd {
+			padding: 6px 7px;
+		}
+
+		.search-bar {
+			margin: 25px;
+		}
+
+		input {
+			border-color: #5046e0;
+		}
+
+		.tooltip {
+			background-color: white;
+			color: black;
+			border: black;
+			border-width: 2px;
+			border-style: solid;
+			border-radius: 5px;
+			position: absolute;
+			display: inline-block;
+			z-index: 10;
+		}
+
+		.hidden {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="search-bar">
+		<label for="search-input">Search:</label>
+		<input type="text" id="search-input" name="search-input"></input>
+	</div>
+	<table class="dataTable">
+		<thead>
+			<tr>
+				<th class="dataTableTd">Business Outcome </th>
+				<th class="dataTableTd">Format</th>
+				<th class="dataTableTd">Initial Owner</th>
+				<th class="dataTableTd">Short Description</th>
+				<th class="dataTableTd">Link</th>
+			</tr>
+		</thead>
+		<tbody id="table-body"></tbody>
+	</table>
+	<script>
+		const tableBody = document.getElementById("table-body");
+		const searchInput = document.getElementById("search-input");
+		// TODO: task nr.3 extract data to a seperate file
+		const tableData = [
+			["System access", "Word", "Barbara", "Access procedure", "http:"],
+			["Credit/Rebill", "Power Point", "Karen", "Credit note", "http:"],
+			["OOP", "Excel", "Jim", "Static field", "http"],
+			["Invoice template", "Recording", "Bill", "static fields", "http"],
+		];
+
+		function updateTable(updateData) {
+			for (let i = 0; i < updateData.length; i++) {
+				const row = createRow(updateData[i], i)
+				tableBody.appendChild(row);
+				createTooltip(row, i, updateData[i]);
+			}
+		}
+
+		function createTooltipTable(tooltipData) {
+			const tableElement = document.createElement("table");
+			const tbodyElement = document.createElement("tbody");
+			tableElement.appendChild(tbodyElement);
+			const rowElement = document.createElement("tr");
+			tbodyElement.appendChild(rowElement);
+			const td1Element = document.createElement("td");
+			td1Element.innerHTML = "Format:";
+			td1Element.classList.add("tooltipTableTd");
+			rowElement.appendChild(td1Element);
+			const td2Element = document.createElement("td");
+			td2Element.innerHTML = tooltipData[1];
+			td2Element.classList.add("tooltipTableTd");
+			rowElement.appendChild(td2Element);
+			const td3Element = document.createElement("td");
+			td3Element.innerHTML = "Initial Owner:";
+			td3Element.classList.add("tooltipTableTd");
+			rowElement.appendChild(td3Element);
+			const td4Element = document.createElement("td");
+			td4Element.innerHTML = tooltipData[2];
+			td4Element.classList.add("tooltipTableTd");
+			rowElement.appendChild(td4Element);
+			return tableElement;
+		}
+
+		function createTooltip(row, id, rowData) {
+			const tooltip = document.createElement("div");
+			tooltip.id = `tooltip-${id}`
+			tooltip.classList.add("tooltip")
+			tooltip.classList.add("hidden")
+			const rect = row.getBoundingClientRect();
+			tooltip.style.left = rect.left + "px";
+			tooltip.style.top = rect.bottom + "px";
+			const tooltipTable = createTooltipTable(rowData);
+			tooltip.appendChild(tooltipTable);
+			document.body.appendChild(tooltip);
+			row.addEventListener("mouseover", function () {
+				tooltip.classList.remove("hidden");
+			});
+			row.addEventListener("mouseout", function () {
+				tooltip.classList.add("hidden");
+			});
+			return tooltip;
+		}
+
+		function createRow(rowData, id) {
+			// create row element
+			let row = document.createElement("tr");
+			row.id = `row-${id}`
+			if (id % 2 != 0) { row.classList.add("oddRow"); }
+
+			// create row cells 
+			for (let j = 0; j < rowData.length; j++) {
+				let cell = document.createElement("td");
+				cell.innerHTML = rowData[j];
+				cell.classList.add("dataTableTd");
+				row.appendChild(cell);
 			}
 
-      th,
-      td {
-        padding: 12px 15px;
-      }
+			return row;
+		}
 
-			.search-bar {
-				margin: 25px;
-				border-color:  #005498 ;(29, 3, 124);
-				float:
-			}
-    </style>
-  </head>
-  <body>
-		<div class="search-bar">
-			<label for="search-input">Search:</label>
-			<input type="text" id="search-input" name="search-input"></input>
-		</div>
-    <table>
-      <thead>
-        <tr>
-          <th>Business  Outcome </th>
-          <th>Format</th>
-					<th>Initial Owner</th>
-					<th>Short Description</th>
-					<th>Link</th>
-        </tr>
-      </thead>
-      <tbody id="table-body"></tbody>
-    </table>
-    <script>
-      const tableBody = document.getElementById("table-body");
-      const searchInput = document.getElementById("search-input");
-      const tableData = [
-        ["System access", "Word", "Barbara", "Access procedure", "http:"],
-        ["Credit/Rebill", "Power Point", "Karen", "Credit note", "http:"],
-        ["OOP", "Excel", "Jim", "Static field", "http"],
-        ["Invoice template", "Recording", "Bill", "static fields", "http"],
-      ];
+		function filterData() {
+			tableBody.innerHTML = "";
+			let searchValue = searchInput.value.toLowerCase();
+			let filterData = tableData.filter(function (d) {
+				let dataLength = d.length
+				let isMatch = false
+				for (let k = 0; k < dataLength; k++) {
+					isMatch = d[k].toLowerCase().includes(searchValue)
+					if (isMatch) { break }
+				}
+				return isMatch
+			})
+			// console.log(filterData);
+			updateTable(filterData);
+		}
 
-      function updateTable(updateData) {
-        for (let i = 0; i < updateData.length; i++) {
-          tableBody.appendChild(createRow(updateData[i]));
-        }
-      }
+		searchInput.addEventListener("input", filterData)
 
-      function createRow(rowData) {
-        let row = document.createElement("tr");
-        for (let j = 0; j < rowData.length; j++) {
-          let cell = document.createElement("td");
-          cell.innerHTML = rowData[j];
-          row.appendChild(cell);
-        }
-        return row;
-      }
+		updateTable(tableData);
+	</script>
+</body>
 
-      function filterData() {
-        tableBody.innerHTML = "";
-        let searchValue = searchInput.value.toLowerCase();
-        let filterData = tableData.filter(function (d) {
-          // console.log(d)
-          let dataLength = d.length
-          let isMatch = false
-          for (let k = 0; k < dataLength; k++) {
-            isMatch = d[k].toLowerCase().includes(searchValue)
-            if (isMatch) { break }
-            }
-            return isMatch
-        })
-        // console.log(filterData);
-        updateTable(filterData);
-      }
-
-      searchInput.addEventListener("input", filterData)
-
-      updateTable(tableData);
-    </script>
-  </body>
 </html>
